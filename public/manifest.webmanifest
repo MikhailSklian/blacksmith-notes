@@ -1,0 +1,17 @@
+{
+  "name": "Кузнечные Заметки",
+  "short_name": "Кузнец",
+  "description": "Заметки для кузнеца",
+  "theme_color": "#d35400",
+  "background_color": "#2c3e14",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
