@@ -5,7 +5,7 @@
   background: linear-gradient(135deg, #fef9e6 0%, #fff5e0 100%);
 }
 
-/* Шапка как наковальня */
+/* Шапка */
 .header {
   background: linear-gradient(135deg, #2c3e14 0%, #1e2a0e 100%);
   color: #ffd966;
@@ -15,6 +15,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .header h1 {
@@ -24,13 +26,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin: 0;
 }
 
 .header h1 span {
   font-size: 32px;
 }
 
-.new-note-btn {
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.new-horse-btn {
   background: #d35400;
   color: white;
   border: none;
@@ -43,10 +51,26 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.new-note-btn:hover {
+.new-horse-btn:hover {
   background: #e67e22;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.logout-btn {
+  background: #7f8c8d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: #95a5a6;
+  transform: translateY(-2px);
 }
 
 /* Оффлайн баннер */
@@ -74,42 +98,11 @@
   font-size: 16px;
   background: white;
   transition: all 0.2s;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #d35400;
-  box-shadow: 0 0 0 3px rgba(211,84,0,0.1);
-}
-
-/* Фильтр категорий */
-.category-filter {
-  padding: 10px 30px;
-  background: white;
-  border-bottom: 1px solid #e0d6b5;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.category-btn {
-  padding: 6px 16px;
-  border: 1px solid #e0d6b5;
-  background: white;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.category-btn:hover {
-  background: #fef9e6;
-  border-color: #d35400;
-}
-
-.category-btn.active {
-  background: #d35400;
-  color: white;
   border-color: #d35400;
 }
 
@@ -120,15 +113,15 @@
   overflow: hidden;
 }
 
-/* Список заметок */
-.notes-list {
-  width: 320px;
+/* Список лошадей */
+.horses-list {
+  width: 380px;
   background: #fff8ed;
   border-right: 2px solid #e0d6b5;
   overflow-y: auto;
 }
 
-.note-item {
+.horse-item {
   padding: 16px;
   border-bottom: 1px solid #e9e2ce;
   cursor: pointer;
@@ -136,44 +129,61 @@
   transition: all 0.2s;
 }
 
-.note-item:hover {
+.horse-item:hover {
   background: #f9f0df;
   transform: translateX(4px);
 }
 
-.note-item.active {
+.horse-item.active {
   background: linear-gradient(90deg, #fff0e0 0%, #fff8ed 100%);
   border-left: 4px solid #d35400;
 }
 
-.note-category {
-  font-size: 12px;
-  color: #d35400;
-  margin-bottom: 6px;
-  font-weight: bold;
+/* Срочность - цветовая индикация */
+.horse-item.urgent-critical {
+  border-left: 4px solid #e74c3c;
+  background: #ffe8e6;
 }
 
-.note-title {
-  font-weight: 600;
-  margin-bottom: 6px;
+.horse-item.urgent-warning {
+  border-left: 4px solid #f39c12;
+}
+
+.horse-name {
+  font-weight: 700;
+  font-size: 18px;
   color: #2c3e14;
-  font-size: 16px;
+  margin-bottom: 8px;
   padding-right: 30px;
 }
 
-.note-preview {
+.horse-timer {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 6px;
+}
+
+.timer-urgent {
+  color: #e74c3c;
+}
+
+.timer-warning {
+  color: #f39c12;
+}
+
+.timer-normal {
+  color: #27ae60;
+}
+
+.horse-comment-preview {
   font-size: 12px;
-  color: #7f8c8d;
-  margin-bottom: 8px;
+  color: #95a5a6;
   font-style: italic;
+  margin-top: 6px;
 }
 
-.note-date {
-  font-size: 11px;
-  color: #bdc3c7;
-}
-
-.delete-btn {
+.delete-horse-btn {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -185,13 +195,12 @@
   transition: opacity 0.2s;
 }
 
-.note-item:hover .delete-btn {
+.horse-item:hover .delete-horse-btn {
   opacity: 0.5;
 }
 
-.delete-btn:hover {
+.delete-horse-btn:hover {
   opacity: 1 !important;
-  transform: scale(1.1);
 }
 
 /* Редактор */
@@ -214,7 +223,7 @@
   background: linear-gradient(90deg, transparent, #d35400, transparent);
 }
 
-.note-title-input {
+.horse-name-input {
   font-size: 32px;
   font-weight: 600;
   border: none;
@@ -226,22 +235,81 @@
   border-bottom: 2px dashed #e0d6b5;
 }
 
-.note-title-input:focus {
+.horse-name-input:focus {
   border-bottom-color: #d35400;
 }
 
-.note-category-select {
-  padding: 8px 12px;
+.timer-section {
   margin-bottom: 20px;
-  border: 1px solid #e0d6b5;
-  border-radius: 8px;
-  background: white;
-  font-size: 14px;
-  cursor: pointer;
-  width: fit-content;
+  padding: 20px;
+  background: #f9f0df;
+  border-radius: 12px;
+  text-align: center;
 }
 
-.note-content-input {
+.timer-display {
+  font-size: 48px;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  color: #2c3e14;
+  margin-bottom: 15px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.timer-input-group {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.timer-input {
+  padding: 10px 15px;
+  border: 2px solid #e0d6b5;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 80px;
+  text-align: center;
+}
+
+.start-timer-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-timer-btn:hover {
+  background: #2ecc71;
+}
+
+.restart-timer-btn {
+  background: #d35400;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.restart-timer-btn:hover {
+  background: #e67e22;
+}
+
+.comment-textarea {
   flex: 1;
   font-size: 16px;
   line-height: 1.8;
@@ -251,16 +319,18 @@
   font-family: 'Georgia', serif;
   background: transparent;
   padding: 12px 0;
+  margin-bottom: 20px;
 }
 
-.note-content-input:disabled {
+.comment-textarea:disabled {
   color: #2c3e14;
   background: transparent;
 }
 
 .editor-actions {
-  margin-top: 20px;
-  text-align: right;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
   padding-top: 20px;
   border-top: 1px solid #e0d6b5;
 }
@@ -282,17 +352,15 @@
 
 .edit-btn:hover {
   background: #95a5a6;
-  transform: translateY(-2px);
 }
 
 .save-btn {
-  background: #d35400;
+  background: #27ae60;
   color: white;
 }
 
 .save-btn:hover {
-  background: #e67e22;
-  transform: translateY(-2px);
+  background: #2ecc71;
 }
 
 .empty-state, .empty-editor {
@@ -312,38 +380,34 @@
     flex-direction: column;
   }
   
-  .notes-list {
+  .horses-list {
     width: 100%;
-    max-height: 250px;
+    max-height: 300px;
   }
   
   .editor {
     padding: 20px;
   }
   
-  .note-title-input {
+  .horse-name-input {
     font-size: 24px;
+  }
+  
+  .timer-display {
+    font-size: 32px;
   }
   
   .header {
     padding: 15px 20px;
+    flex-direction: column;
   }
   
   .header h1 {
     font-size: 20px;
   }
   
-  .new-note-btn {
+  .new-horse-btn, .logout-btn {
     padding: 8px 16px;
     font-size: 14px;
-  }
-  
-  .category-filter {
-    padding: 10px 15px;
-  }
-  
-  .category-btn {
-    padding: 4px 12px;
-    font-size: 12px;
   }
 }
